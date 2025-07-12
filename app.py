@@ -3,6 +3,7 @@
 Final Project - Football Data Analysis (Summer 2025) - Interactive Streamlit Dashboard (Plotly Version)
 """
 
+import gzip
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -14,7 +15,8 @@ import numpy as np
 def load_data():
     """Loads and preprocesses the football match data."""
     try:
-        df = pd.read_csv('Matches.csv', low_memory=False)
+        with gzip.open('Matches.csv.gz', 'rb') as f:
+            df = pd.read_csv(f, low_memory=False)
     except FileNotFoundError:
         st.error("Error: 'Matches.csv' not found. Please make sure the dataset is in the same directory.")
         return None
