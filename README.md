@@ -11,18 +11,16 @@ Repository Structure
 | `requirements.txt`| Python dependencies for the project                                         |
 | `README.md`       | This documentation file   
 
-**10 Interactive Visualizations including:
-**  - Goals trend analysis by season
+**10 Interactive Visualizations including:**
+  - Goals trend analysis by season
   - League comparisons (top 5 European leagues)
   - Team performance vs Elo ratings
   - Betting odds accuracy
 
-**Local Installation.
-**  
+**Local Installation.**
   - git clone https://github.com/yourusername/football-analytics.git
   - cd football-analytics
   - pip install -r requirements.txt
 
-**Running Dashboard by Streamlit
-**
+**Running Dashboard by Streamlit**
   - streamlit run app.py
