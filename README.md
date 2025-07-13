@@ -10,6 +10,7 @@ Repository Structure
 | `final_proj.ipynb`| Jupyter Notebook for data exploration and prototype visualizations          |
 | `requirements.txt`| Python dependencies for the project                                         |
 | `README.md`       | This documentation file   
+| `final project present.ppt`       | This presentation file   
 
 **10 Interactive Visualizations including:**
   - Goals trend analysis by season
@@ -18,6 +19,7 @@ Repository Structure
   - Betting odds accuracy
 
 **Local Installation.**
+  - git view https://github.com/oagaudit/Data_Visualization_Proj/tree/main
   - git clone https://github.com/yourusername/football-analytics.git
   - cd football-analytics
   - pip install -r requirements.txt
