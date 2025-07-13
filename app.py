@@ -17,6 +17,7 @@ def load_data():
     try:
         with gzip.open('Matches.csv.gz', 'rb') as f:
             df = pd.read_csv(f, low_memory=False)
+
     except FileNotFoundError:
         st.error("Error: 'Matches.csv' not found. Please make sure the dataset is in the same directory.")
         return None
@@ -30,7 +31,9 @@ def load_data():
 
 # --- Main App ---
 st.title("Decoding the Beautiful Game: Interactive 25-Year Football Analysis")
-st.markdown("Interactive Dashboard for Final Project (Summer 2025)")
+st.markdown("Interactive Dashboard for Data Visualization (group C) Final Project (Summer 2025)")
+st.markdown("Created by Mati Nakphon, Student ID: 24077939")
+
 
 df = load_data()
 
@@ -57,7 +60,7 @@ if df is not None:
     
     # 1. Evolution of Goals Over Seasons
     if visualization_option == "1. Evolution of Goals Over Seasons":
-        st.header("1. Evolution of Average Goals Per Game Over Seasons (Interactive)")
+        st.header("1. Evolution of Average Goals Per Game Over Seasons")
         avg_goals = df.groupby('Season')['TotalGoals'].mean().reset_index()
         avg_goals = avg_goals[avg_goals['Season'] < 2025]
         
@@ -72,7 +75,7 @@ if df is not None:
 
     # 2. Top 15 High-Scoring Leagues
     elif visualization_option == "2. Top 15 High-Scoring Leagues":
-        st.header("2. Top 15 Leagues with Highest Average Goals (Interactive)")
+        st.header("2. Top 15 Leagues with Highest Average Goals")
         leagues = df['Division'].value_counts()[df['Division'].value_counts() > 1000].index
         df_filtered = df[df['Division'].isin(leagues)]
         avg_goals = df_filtered.groupby('Division')['TotalGoals'].mean().nlargest(15).reset_index()
@@ -88,7 +91,7 @@ if df is not None:
 
     # 3. Match Outcomes in Top 5 Leagues
     elif visualization_option == "3. Match Outcomes in Top 5 Leagues":
-        st.header("3. Match Outcomes in Top 5 Leagues (Interactive)")
+        st.header("3. Match Outcomes in Top 5 Leagues")
         top_leagues = ['E0', 'SP1', 'D1', 'I1', 'F1']
         df_top5 = df[df['Division'].isin(top_leagues)]
         
@@ -101,7 +104,7 @@ if df is not None:
 
     # 4. Distribution of Home vs. Away Goals
     elif visualization_option == "4. Distribution of Home vs. Away Goals":
-        st.header("4. Home vs Away Goals Distribution (Interactive)")
+        st.header("4. Home vs Away Goals Distribution")
         
         fig = go.Figure()
         fig.add_trace(go.Violin(
@@ -120,7 +123,7 @@ if df is not None:
 
     # 5. Elo Rating vs. Goals Scored
     elif visualization_option == "5. Elo Rating vs. Goals Scored":
-        st.header("5. Elo Rating vs Goals Scored (Interactive)")
+        st.header("5. Elo Rating vs Goals Scored")
         df_sample = df.dropna(subset=['HomeElo', 'FTHome']).sample(n=5000)
         
         fig = px.scatter(
@@ -134,7 +137,7 @@ if df is not None:
 
     # 6. Shots vs. Goals Efficiency
     elif visualization_option == "6. Shots vs. Goals Efficiency":
-        st.header("6. Shots Efficiency Analysis (Interactive)")
+        st.header("6. Shots Efficiency Analysis")
         df_shots = df[(df['HomeShots'] > 0) & (df['HomeTarget'] > 0) & (df['HomeShots'] < 40)]
         
         fig = px.scatter(
@@ -148,7 +151,7 @@ if df is not None:
 
     # 7. Impact of Recent Form on Outcome
     elif visualization_option == "7. Impact of Recent Form on Outcome":
-        st.header("7. Form Impact Analysis (Interactive)")
+        st.header("7. Form Impact Analysis")
         
         fig = px.box(
             df, x='FTResult', y='Form5Difference',
@@ -165,7 +168,7 @@ if df is not None:
 
     # 8. Fouls vs. Yellow Cards
     elif visualization_option == "8. Fouls vs. Yellow Cards":
-        st.header("8. Fouls vs Cards Analysis (Interactive)")
+        st.header("8. Fouls vs Cards Analysis")
         fouls = pd.concat([df['HomeFouls'], df['AwayFouls']]).rename('Fouls')
         yellows = pd.concat([df['HomeYellow'], df['AwayYellow']]).rename('YellowCards')
         cards_df = pd.concat([fouls, yellows], axis=1).dropna()
@@ -181,7 +184,7 @@ if df is not None:
 
     # 9. Corners vs. Goals by League
     elif visualization_option == "9. Corners vs. Goals by League":
-        st.header("9. Corners vs Goals Analysis (Interactive)")
+        st.header("9. Corners vs Goals Analysis")
         league_stats = df.groupby('Division').agg(
             AvgGoals=('TotalGoals', 'mean'),
             AvgCorners=('TotalCorners', 'mean'),
@@ -200,7 +203,7 @@ if df is not None:
 
     # 10. Betting Odds vs. Reality
     elif visualization_option == "10. Betting Odds vs. Reality":
-        st.header("10. Betting Market Accuracy (Interactive)")
+        st.header("10. Betting Market Accuracy")
         df_odds = df[['OddHome', 'FTResult']].dropna().copy()
         df_odds['ImpliedProb'] = 1 / df_odds['OddHome']
         df_odds['ActualResult'] = (df_odds['FTResult'] == 'H').astype(int)
